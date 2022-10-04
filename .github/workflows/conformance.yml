@@ -17,12 +17,12 @@ on:
   repository_dispatch:
     types: [conformance-test]
   workflow_dispatch:
-  schedule:
-    - cron: '0 */8 * * *'
-  pull_request:
-    branches:
-      - master
-      - 'release-*'
+  #schedule:
+  #  - cron: '0 */8 * * *'
+  #pull_request:
+  #  branches:
+  #    - master
+  #    - 'release-*'
 
 jobs:
   # Based on whether this is a PR or a scheduled run, we will run a different

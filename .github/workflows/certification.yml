@@ -17,12 +17,12 @@ on:
   repository_dispatch:
     types: [certification-test]
   workflow_dispatch:
-  schedule:
-    - cron: '5 */12 * * *'
-  pull_request:
-    branches:
-      - master
-      - release-*
+  #schedule:
+  #  - cron: '5 */12 * * *'
+  #pull_request:
+  #  branches:
+  #    - master
+  #    - release-*
 
 jobs:
   # Based on whether this is a PR or a scheduled run, we will run a different
