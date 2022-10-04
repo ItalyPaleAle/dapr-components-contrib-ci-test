@@ -78,6 +78,11 @@ jobs:
           echo "::set-output name=cloud-components::[]"
           exit
         fi
+
+        #TODO FIXME
+        echo "::set-output name=cron-components::[]"
+        exit
+        
         # Reuse the same cloud infrastructure as conformance.yml
         #
         # Unfortunately, Azure secrets can't have underscores in

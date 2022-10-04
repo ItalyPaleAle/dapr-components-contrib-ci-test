@@ -94,6 +94,11 @@ jobs:
           echo "::set-output name=cron-components::[]"
           exit
         fi
+
+        #TODO FIXME
+        echo "::set-output name=cron-components::[]"
+        exit
+        
         # Unfortunately, Azure secrets can't have underscores in
         # names, while environment variables with hyphens ('-') are
         # troublesome.
