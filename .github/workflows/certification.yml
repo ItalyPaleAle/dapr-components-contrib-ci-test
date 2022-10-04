@@ -80,7 +80,7 @@ jobs:
         fi
 
         #TODO FIXME
-        echo "::set-output name=cron-components::[]"
+        echo "::set-output name=cloud-components::[]"
         exit
         
         # Reuse the same cloud infrastructure as conformance.yml
