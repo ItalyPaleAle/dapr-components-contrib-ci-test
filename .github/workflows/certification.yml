@@ -297,13 +297,14 @@ jobs:
       if: always()
       run: |
         mkdir -p tmp/result_files
+        echo "Writing to tmp/result_files/${{ matrix.component }}.txt"
         if [[ "${{ env.CERTIFICATION_FAILURE }}" == "true" ]]; then
-          echo "0" >> tmp/result_files/${{ matrix.component }}
+          echo "0" >> "tmp/result_files/${{ matrix.component }}.txt"
         else
-          echo "1" >> tmp/result_files/${{ matrix.component }}
+          echo "1" >> "tmp/result_files/${{ matrix.component }}.txt"
         fi
 
-    - name: Upload test result artifact
+    - name: Upload result files
       uses: actions/upload-artifact@v3
       if: always()
       with:
