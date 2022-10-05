@@ -48,11 +48,9 @@ jobs:
       id: pr-components
       run: |
         PR_COMPONENTS=$(yq -I0 --tojson eval - << EOF
-        - state.redis
+        - state.mysql
         - state.postgresql
-        - secretstores.local.env
-        - secretstores.local.file
-        - secretstores.hashicorp.vault
+        - state.redis
         EOF
         )
         echo "::set-output name=pr-components::$PR_COMPONENTS"

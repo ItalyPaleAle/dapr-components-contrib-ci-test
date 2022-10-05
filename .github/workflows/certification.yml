@@ -52,7 +52,6 @@ jobs:
         - state.postgresql
         - secretstores.local.env
         - secretstores.local.file
-        - secretstores.hashicorp.vault
         EOF
         )
         echo "::set-output name=pr-components::$PR_COMPONENTS"
