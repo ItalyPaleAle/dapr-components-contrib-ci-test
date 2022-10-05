@@ -174,10 +174,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ env.PROJECT_PATH }}
     needs: generate-matrix
-    env:
-      PROJECT_PATH: ./src/github.com/dapr/components-contrib
 
     strategy:
       fail-fast: false # Keep running even if one component fails
@@ -205,7 +202,6 @@ jobs:
     - name: Check out code onto GOPATH
       uses: actions/checkout@v2
       with:
-        path: ${{ env.PROJECT_PATH }}
         repository: ${{ env.CHECKOUT_REPO }}
         ref: ${{ env.CHECKOUT_REF }}
 
@@ -465,8 +461,6 @@ jobs:
         else
           echo "1" >> "tmp/result_files/${{ matrix.component }}.txt"
         fi
-        ls -al tmp/
-        ls -al tmp/*/
 
     - name: Upload result files
       uses: actions/upload-artifact@v3
@@ -506,3 +500,41 @@ jobs:
         with:
           name: result_files
           path: tmp/result_files
+
+      - name: Build message
+        run: |
+          BASEPATH="${{steps.testresults.outputs.download-path}}"
+          NL=$'\n'
+          TABLE=""
+          ls "$BASEPATH" | while read f; do
+          while read LINE; do
+              if [[ "$LINE" == "1" ]]; then
+                TABLE="$TABLE| $f | ✅ |$NL"
+              elif [[ "$LINE" == "0" ]]; then
+                TABLE="$TABLE| $f | ❌ |$NL"
+              else
+                TABLE="$TABLE| $f | 🤔 |$NL"
+              fi
+            done < "$BASEPATH/$f"
+          done
+          echo "TABLE=$TABLE" >> $GITHUB_ENV
+
+      - name: Replace PR comment
+        if: env.PR_NUMBER != ''
+        uses: artursouza/sticky-pull-request-comment@v2.2.0
+        with:
+          header: ${{ github.run_id }}
+          number: ${{ env.PR_NUMBER }}
+          GITHUB_TOKEN: ${{ secrets.DAPR_BOT_TOKEN }}
+          message: |
+            # Components conformance test
+
+            🔗 **[Link to Action run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})**
+
+            Commit ref: ${{ env.CHECKOUT_REF }}
+
+            ## Result
+
+            | Component | Status |
+            | --- | --- |
+            ${{ env.TABLE }}
