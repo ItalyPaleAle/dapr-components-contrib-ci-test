@@ -48,41 +48,11 @@ jobs:
       id: pr-components
       run: |
         PR_COMPONENTS=$(yq -I0 --tojson eval - << EOF
-        - bindings.http
-        - bindings.influx
-        - bindings.kafka-wurstmeister
-        - bindings.kafka-confluent
-        - bindings.mqtt-emqx
-        - bindings.mqtt-mosquitto
-        - bindings.mqtt-vernemq
-        - bindings.postgres
-        - bindings.redis
-        - bindings.rabbitmq
-        - pubsub.aws.snssqs
-        - pubsub.hazelcast
-        - pubsub.in-memory
-        - pubsub.mqtt-emqx
-        - pubsub.mqtt-mosquitto
-        - pubsub.mqtt-vernemq
-        - pubsub.natsstreaming
-        - pubsub.pulsar
-        - pubsub.rabbitmq
-        - pubsub.redis
-        - pubsub.kafka-wurstmeister
-        - pubsub.kafka-confluent
-        - secretstores.kubernetes
-        - secretstores.localenv
-        - secretstores.localfile
-        - secretstores.hashicorp.vault
-        - state.cassandra
-        - state.memcached
-        - state.mongodb
-        - state.mysql
-        - state.postgresql
         - state.redis
-        - state.sqlserver
-        - state.cockroachdb
-        - state.rethinkdb
+        - state.postgresql
+        - secretstores.local.env
+        - secretstores.local.file
+        - secretstores.hashicorp.vault
         EOF
         )
         echo "::set-output name=pr-components::$PR_COMPONENTS"
