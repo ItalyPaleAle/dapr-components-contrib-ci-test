@@ -351,6 +351,7 @@ jobs:
           path: tmp/result_files
 
       - name: Build message
+        if: env.PR_NUMBER != ''
         run: |
           BASEPATH="${{steps.testresults.outputs.download-path}}"
 
@@ -372,11 +373,11 @@ jobs:
           ls "$BASEPATH" | while read f; do
           while read LINE; do
               if [[ "$LINE" == "1" ]]; then
-                echo "| $f | ✅ |" >> tmp/message.txt
+                echo "| ${f%.*} | ✅ |" >> tmp/message.txt
               elif [[ "$LINE" == "0" ]]; then
-                echo "| $f | ❌ |" >> tmp/message.txt
+                echo "| ${f%.*} | ❌ |" >> tmp/message.txt
               else
-                echo "| $f | 🤔 |" >> tmp/message.txt
+                echo "| ${f%.*} | 🤔 |" >> tmp/message.txt
               fi
             done < "$BASEPATH/$f"
           done
