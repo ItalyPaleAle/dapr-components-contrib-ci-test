@@ -329,7 +329,9 @@ jobs:
   post_job:
     name: Post-completion
     runs-on: ubuntu-latest
-    needs: certification
+    needs: 
+      - certification
+      - generate-matrix
     steps:
       - name: Parse repository_dispatch payload
         if: github.event_name == 'repository_dispatch'
@@ -355,8 +357,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const prComponents = JSON.parse('${{ needs.generate-matrix.outputs.pr-components }}') || []
-            const cloudComponents = JSON.parse('${{ needs.generate-matrix.outputs.cloud-components }}') || []
+            const prComponents = ('${{ needs.generate-matrix.outputs.pr-components }}' && JSON.parse('${{ needs.generate-matrix.outputs.pr-components }}')) || []
+            const cloudComponents = ('${{ needs.generate-matrix.outputs.cloud-components }}' && JSON.parse('${{ needs.generate-matrix.outputs.cloud-components }}')) || []
             const allComponents = [...prComponents, ...cloudComponents]
             const basePath = '${{ steps.testresults.outputs.download-path }}'
             const testType = 'certification'
