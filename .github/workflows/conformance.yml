@@ -448,7 +448,7 @@ jobs:
     name: Post-completion
     runs-on: ubuntu-latest
     needs:
-      - certification
+      - conformance
       - generate-matrix
     steps:
       - name: Parse repository_dispatch payload
