@@ -129,6 +129,10 @@ jobs:
 
           Commit ref: ${{ env.CHECKOUT_REF }}
 
+    - run: |
+        echo "${{ steps.pr-components.outputs.pr-components }}"
+        echo "${{ steps.pr-components.outputs.cloud-components }}"
+
     outputs:
       pr-components: ${{ steps.pr-components.outputs.pr-components }}
       cloud-components: ${{ steps.cloud-components.outputs.cloud-components }}
