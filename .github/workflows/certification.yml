@@ -121,8 +121,6 @@ jobs:
       with:
         header: ${{ github.run_id }}
         number: ${{ env.PR_NUMBER }}
-        hide: true
-        hide_classify: OUTDATED
         GITHUB_TOKEN: ${{ secrets.DAPR_BOT_TOKEN }}
         message: |
           # Components certification test
@@ -239,6 +237,7 @@ jobs:
       run: |
         echo "Running certification tests for ${{ matrix.component }} ... "
 
+        export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn
         set +e
         gotestsum --jsonfile ${{ env.TEST_OUTPUT_FILE_PREFIX }}_certification.json \
           --junitfile ${{ env.TEST_OUTPUT_FILE_PREFIX }}_certification.xml --format standard-quiet -- \
